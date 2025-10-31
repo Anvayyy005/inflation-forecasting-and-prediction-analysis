@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Global Inflation Forecast</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --accent-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --lighter-gray: #f8f9fa;
+            --light-gray: #e9ecef;
+            --medium-gray: #adb5bd;
+            --dark-gray: #495057;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --border-radius: 12px;
+            --card-border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--lighter-gray);
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin: 0;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+        }
+        
+        .info-box {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.25rem;
+            margin: 1.25rem 0;
+            border-radius: var(--border-radius);
+        }
+        
+        .info-box h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .info-box p {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+        
+        .team-member {
+            background-color: white;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary-color);
+        }
+        
+        .member-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background-color: var(--light-color);
+        }
+        
+        .member-info {
+            padding: 1.25rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .member-role {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .member-bio {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            color: var(--dark-gray);
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .methodology-list {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .methodology-list li {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 992px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content, .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Global Inflation Forecast</div>
+            <nav class="nav-links">
+                <a href="/">Dashboard</a>
+                <a href="/forecast">Category Analysis</a>
+                <a href="/about" class="active">About</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="breadcrumb">
+            <a href="/">Projects</a> / <a href="/">Global Inflation</a> / About
+        </div>
+        
+        <div class="dashboard-header">
+            <h1 class="page-title">About the Project</h1>
+        </div>
+        
+        <div class="two-columns">
+            <div>
+                <div class="card section">
+                    <div class="card-header">
+                        <h2 class="card-title">Project Overview</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <p>The Global Inflation Forecast tool provides accurate inflation predictions based on historical data and advanced time series modeling. Our application allows users to examine inflation trends, analyze category-specific rates, and understand the impact of major global events.</p>
+                        
+                        <div class="info-box">
+                            <h3>Key Features</h3>
+                            <ul class="methodology-list">
+                                <li><strong>Forecasting:</strong> Predict future inflation rates with confidence intervals</li>
+                                <li><strong>Event Impact Analysis:</strong> See how major global events influenced inflation</li>
+                                <li><strong>Category Breakdown:</strong> Analyze inflation by specific economic sectors</li>
+                                <li><strong>Interactive Visualization:</strong> Explore trends through intuitive charts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card section">
+                    <div class="card-header">
+                        <h2 class="card-title">Methodology</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <p>Our forecasting methodology combines statistical rigor with practical insights to provide reliable inflation projections.</p>
+                        
+                        <div class="info-box">
+                            <h3>Technical Approach</h3>
+                            <ul class="methodology-list">
+                                <li><strong>SARIMAX Modeling:</strong> We use Seasonal AutoRegressive Integrated Moving Average with eXogenous factors (SARIMAX) models to capture complex patterns in inflation data.</li>
+                                <li><strong>Data Sources:</strong> Historical inflation data from trusted statistical agencies, updated regularly to ensure accuracy.</li>
+                                <li><strong>Confidence Intervals:</strong> All forecasts include confidence bands to represent the degree of uncertainty.</li>
+                                <li><strong>Event Correlation:</strong> Major economic events are mapped to inflation trends to analyze causative relationships.</li>
+                            </ul>
+                        </div>
+                        
+                        <p>The model is periodically retrained with the latest data to maintain accuracy. Forecasts are generated up to 10 years ahead, though accuracy diminishes with longer forecast horizons.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="card section">
+                    <div class="card-header">
+                        <h2 class="card-title">Our Team</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="team-grid">
+                            <div class="team-member">
+                                <div class="member-image" style="background-color: #3498db; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">👨‍💻</div>
+                                <div class="member-info">
+                                    <div class="member-name">Alex Johnson</div>
+                                    <div class="member-role">Lead Data Scientist</div>
+                                    <div class="member-bio">Specializes in time series forecasting and economic modeling with 8+ years of experience in quantitative analysis.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="team-member">
+                                <div class="member-image" style="background-color: #e74c3c; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">👩‍🔬</div>
+                                <div class="member-info">
+                                    <div class="member-name">Sarah Chen</div>
+                                    <div class="member-role">Economist</div>
+                                    <div class="member-bio">Former central bank economist focusing on inflation dynamics and monetary policy impacts.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="team-member">
+                                <div class="member-image" style="background-color: #2ecc71; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">👨‍🎨</div>
+                                <div class="member-info">
+                                    <div class="member-name">Miguel Rodriguez</div>
+                                    <div class="member-role">UI/UX Designer</div>
+                                    <div class="member-bio">Creates intuitive data visualizations and user interfaces that make complex economic data accessible.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Contact Us</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <p>Have questions about our methodology or need help interpreting results? We're here to help.</p>
+                        <div class="info-box">
+                            <h3>Get in Touch</h3>
+                            <p>Email: <a href="mailto:info@inflationforecast.org" style="color: var(--primary-color);">info@inflationforecast.org</a></p>
+                            <p>Twitter: <a href="#" style="color: var(--primary-color);">@InflationForecast</a></p>
+                            <p>GitHub: <a href="#" style="color: var(--primary-color);">github.com/inflation-forecast</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p style="text-align: center; padding: 1.5rem 0; color: var(--medium-gray); font-size: 0.9rem;">
+                © 2025 Global Inflation Analysis Tool • Data last updated: {{ now('F j, Y') }}
+            </p>
+        </div>
+    </footer>
+</body>
+</html> 

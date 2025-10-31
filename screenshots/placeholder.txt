@@ -1,0 +1,9 @@
+This is a placeholder file for the screenshots directory.
+
+To add a screenshot of your application to the README:
+
+1. Take a screenshot of your running application
+2. Save it as 'dashboard.png' in this directory
+3. The image will automatically be displayed in the README.md file
+
+You can add more screenshots as needed and reference them in your documentation. 

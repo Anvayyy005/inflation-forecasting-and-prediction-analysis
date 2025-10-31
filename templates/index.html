@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Inflation Forecast</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --accent-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --lighter-gray: #f8f9fa;
+            --light-gray: #e9ecef;
+            --medium-gray: #adb5bd;
+            --dark-gray: #495057;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --border-radius: 12px;
+            --card-border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--lighter-gray);
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .date-range {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 6px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .date-range svg {
+            margin-right: 0.5rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin: 0;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .metric-card {
+            background-color: white;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.25rem;
+            transition: var(--transition);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+        
+        .metric-header {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .trend-up {
+            color: var(--error-color);
+        }
+        
+        .trend-down {
+            color: var(--success-color);
+        }
+        
+        .metric-trend svg {
+            margin-right: 0.25rem;
+        }
+        
+        .secondary-value {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--dark-color);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-accent:hover {
+            background-color: #e67e22;
+        }
+        
+        .message {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+        
+        .message.success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        
+        .message.error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+        
+        .chart-container {
+            margin: 1.5rem 0;
+            position: relative;
+            height: 450px;
+        }
+        
+        .chart-img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .events-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .event-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .event-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 992px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content, .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Global Inflation Forecast</div>
+            <nav class="nav-links">
+                <a href="/" class="active">Dashboard</a>
+                <a href="/forecast">Category Analysis</a>
+                <a href="/about">About</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="breadcrumb">
+            <a href="/">Projects</a> / Global Inflation
+        </div>
+        
+        <div class="dashboard-header">
+            <h1 class="page-title">Inflation Dashboard</h1>
+            <div class="date-range">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 2V5" stroke="#495057" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M16 2V5" stroke="#495057" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M3 8H21" stroke="#495057" stroke-width="1.5" stroke-linecap="round"/>
+                    <rect x="3" y="4" width="18" height="18" rx="3" stroke="#495057" stroke-width="1.5"/>
+                    <path d="M8 12H8.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 12H12.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 12H16.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M8 16H8.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 16H12.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 16H16.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>{{ now('Y-m-d') }}</span>
+            </div>
+        </div>
+        
+        {% if message %}
+        <div class="message success">{{ message }}</div>
+        {% endif %}
+        
+        {% if error %}
+        <div class="message error">{{ error }}</div>
+        {% endif %}
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-header">Current Inflation Rate</div>
+                <div class="metric-value">
+                    {% if avg_inflation is defined %}
+                    {{ avg_inflation|floatformat(2) }}%
+                    {% else %}
+                    3.7%
+                    {% endif %}
+                    <span class="secondary-value">+0.3%</span>
+                </div>
+                <div class="metric-trend trend-up">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 17L17 7" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 16V7H8" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Increased from previous month
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">Target Rate</div>
+                <div class="metric-value">
+                    2.0%
+                </div>
+                <div class="metric-trend">
+                    Set by central banks
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">Forecast Confidence</div>
+                <div class="metric-value">
+                    92%
+                </div>
+                <div class="metric-trend trend-down">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 7L17 17" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 8V17H8" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    High prediction accuracy
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">2023 Avg. Rate</div>
+                <div class="metric-value">
+                    4.1%
+                </div>
+                <div class="metric-trend trend-down">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 7L17 17" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 8V17H8" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Down from 7.1% in 2022
+                </div>
+            </div>
+        </div>
+        
+        <div class="two-columns">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Inflation Forecast</h2>
+                </div>
+                
+                <div class="card-body">
+                    <form method="POST" action="/predictdata">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" id="start_date" name="start_date" value="{{ start_date }}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="end_date">End Date</label>
+                                <input type="date" id="end_date" name="end_date" value="{{ end_date }}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="event">Global Event Impact</label>
+                                <select id="event" name="event" required>
+                                    <option value="None" {% if event == 'None' %}selected{% endif %}>None (Baseline Forecast)</option>
+                                    <option value="Covid 19 Pandemic" {% if event == 'Covid 19 Pandemic' %}selected{% endif %}>COVID-19 Pandemic (2020)</option>
+                                    <option value="Ukraine-Russia War" {% if event == 'Ukraine-Russia War' %}selected{% endif %}>Ukraine-Russia War (2022)</option>
+                                    <option value="Global Financial Crisis" {% if event == 'Global Financial Crisis' %}selected{% endif %}>2008 Financial Crisis</option>
+                                    <option value="Oil Price Shock" {% if event == 'Oil Price Shock' %}selected{% endif %}>2014 Oil Price Collapse</option>
+                                    <option value="US-China Trade War" {% if event == 'US-China Trade War' %}selected{% endif %}>US-China Trade War (2018)</option>
+                                    <option value="Brexit Referendum" {% if event == 'Brexit Referendum' %}selected{% endif %}>Brexit Referendum (2016)</option>
+                                    <option value="Fed Rate Hikes" {% if event == 'Fed Rate Hikes' %}selected{% endif %}>Fed Rate Hike Cycle (2022)</option>
+                                    <option value="Supply Chain Crisis" {% if event == 'Supply Chain Crisis' %}selected{% endif %}>Supply Chain Crisis (2021)</option>
+                                    <option value="Energy Crisis" {% if event == 'Energy Crisis' %}selected{% endif %}>European Energy Crisis (2022)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="btn-container">
+                            <button type="submit" class="btn">Generate Forecast</button>
+                            <a href="/update_model" class="btn btn-accent">Update with Latest Data</a>
+                        </div>
+                    </form>
+                    
+                    {% if plot_img_base64 %}
+                    <div class="chart-container">
+                        <img class="chart-img" src="data:image/png;base64, {{ plot_img_base64 }}" alt="Inflation Forecast Plot">
+                    </div>
+                    
+                    <div class="events-legend">
+                        <div class="event-item">
+                            <span class="event-color" style="background-color: #3498db;"></span>
+                            <span>Historical Data</span>
+                        </div>
+                        {% if event != 'None' %}
+                        <div class="event-item">
+                            <span class="event-color" style="background-color: {{ GLOBAL_EVENTS[event].color if GLOBAL_EVENTS is defined and event in GLOBAL_EVENTS else '#e74c3c' }};"></span>
+                            <span>{{ event }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="event-item">
+                            <span class="event-color" style="background-color: rgba(52, 152, 219, 0.2);"></span>
+                            <span>Confidence Interval</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Economic Insights</h2>
+                </div>
+                
+                <div class="card-body">
+                    <div class="info-box">
+                        <h3>Inflation Trends</h3>
+                        <p>Global inflation has been trending downward since its peak in mid-2022, showing signs of stabilization. The current forecast suggests moderate inflation in the coming years, barring new economic shocks.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3>Major Economic Events</h3>
+                        <p>Select a global economic event from the dropdown to see its historical impact on inflation trends. These event markers help understand how external shocks affect inflation patterns.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3>Category Analysis</h3>
+                        <p>For a more detailed view of inflation by economic sector, visit the <a href="/forecast">Category Analysis</a> page. This tool breaks down inflation by specific categories like Food, Housing, and Transportation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p style="text-align: center; padding: 1.5rem 0; color: var(--medium-gray); font-size: 0.9rem;">
+                © 2025 Global Inflation Analysis Tool • Data last updated: {{ now('F j, Y') }}
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

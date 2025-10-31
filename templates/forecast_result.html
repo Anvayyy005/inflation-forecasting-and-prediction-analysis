@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast Results - Global Inflation Forecast</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --accent-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --lighter-gray: #f8f9fa;
+            --light-gray: #e9ecef;
+            --medium-gray: #adb5bd;
+            --dark-gray: #495057;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --border-radius: 12px;
+            --card-border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--lighter-gray);
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .date-range {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 6px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .date-range svg {
+            margin-right: 0.5rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin: 0;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .metric-card {
+            background-color: white;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.25rem;
+            transition: var(--transition);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+        
+        .metric-header {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: baseline;
+        }
+        
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .trend-up {
+            color: var(--error-color);
+        }
+        
+        .trend-down {
+            color: var(--success-color);
+        }
+        
+        .metric-trend svg {
+            margin-right: 0.25rem;
+        }
+        
+        .percent-sign {
+            font-size: 1.5rem;
+            margin-left: 0.25rem;
+            font-weight: 600;
+            color: var(--medium-gray);
+        }
+        
+        .secondary-value {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--dark-color);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-accent:hover {
+            background-color: #e67e22;
+        }
+        
+        .message {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+        
+        .message.success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        
+        .message.error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+        
+        .chart-container {
+            margin: 1.5rem 0;
+            position: relative;
+            height: 450px;
+        }
+        
+        .chart-img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-box {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.25rem;
+            margin: 1.25rem 0;
+            border-radius: var(--border-radius);
+        }
+        
+        .info-box h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .info-box p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .forecast-details {
+            padding: 1.25rem;
+            background-color: var(--lighter-gray);
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+        }
+        
+        .forecast-details h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--dark-color);
+        }
+        
+        .forecast-details p {
+            margin-bottom: 0.75rem;
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .events-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .event-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .event-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+        
+        @media (max-width: 992px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content, .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Global Inflation Forecast</div>
+            <nav class="nav-links">
+                <a href="/">Dashboard</a>
+                <a href="/forecast" class="active">Category Analysis</a>
+                <a href="/about">About</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="breadcrumb">
+            <a href="/">Projects</a> / <a href="/">Global Inflation</a> / <a href="/forecast">Category Analysis</a> / Results
+        </div>
+        
+        <div class="dashboard-header">
+            <h1 class="page-title">{{ category }} Analysis</h1>
+            <div class="date-range">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 2V5" stroke="#495057" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M16 2V5" stroke="#495057" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M3 8H21" stroke="#495057" stroke-width="1.5" stroke-linecap="round"/>
+                    <rect x="3" y="4" width="18" height="18" rx="3" stroke="#495057" stroke-width="1.5"/>
+                    <path d="M8 12H8.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 12H12.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 12H16.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M8 16H8.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 16H12.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 16H16.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>{{ start_date }} to {{ end_date }}</span>
+            </div>
+        </div>
+        
+        {% if error %}
+        <div class="message error">{{ error }}</div>
+        {% endif %}
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-header">Average Inflation</div>
+                <div class="metric-value">
+                    {{ avg_inflation|floatformat(2) }}<span class="percent-sign">%</span>
+                </div>
+                {% if avg_inflation > 2.0 %}
+                <div class="metric-trend trend-up">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 17L17 7" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 16V7H8" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Above Target
+                </div>
+                {% else %}
+                <div class="metric-trend trend-down">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 7L17 17" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 8V17H8" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Within Target
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">Maximum Inflation</div>
+                <div class="metric-value">
+                    {{ max_inflation|floatformat(2) }}<span class="percent-sign">%</span>
+                </div>
+                <div class="metric-trend">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12H6" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M9 12H12" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M15 12H18" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M21 12H21.01" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    {{ max_inflation_date }}
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-header">Category vs Overall</div>
+                <div class="metric-value">
+                    {{ cat_vs_overall|floatformat(2) }}<span class="percent-sign">%</span>
+                </div>
+                {% if cat_vs_overall > 0 %}
+                <div class="metric-trend trend-up">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 17L17 7" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 16V7H8" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Higher than Overall
+                </div>
+                {% else %}
+                <div class="metric-trend trend-down">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 7L17 17" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 8V17H8" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Lower than Overall
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="two-columns">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Inflation Comparison Chart</h2>
+                </div>
+                
+                <div class="card-body">
+                    {% if plot_img_base64 %}
+                    <div class="chart-container">
+                        <img class="chart-img" src="data:image/png;base64, {{ plot_img_base64 }}" alt="Category Inflation Analysis">
+                    </div>
+                    
+                    <div class="events-legend">
+                        <div class="event-item">
+                            <span class="event-color" style="background-color: #3498db;"></span>
+                            <span>Overall Inflation</span>
+                        </div>
+                        <div class="event-item">
+                            <span class="event-color" style="background-color: #e74c3c;"></span>
+                            <span>{{ category }} Inflation</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="forecast-details">
+                        <h3>Analysis Insights</h3>
+                        <p>This analysis shows how inflation in the {{ category }} category compares to overall inflation during the selected time period.</p>
+                        <p>The selected category has shown an average inflation rate of {{ avg_inflation|floatformat(2) }}%, with a peak inflation of {{ max_inflation|floatformat(2) }}% recorded in {{ max_inflation_date }}.</p>
+                        {% if cat_vs_overall > 0 %}
+                        <p>The {{ category }} category experienced inflation rates {{ cat_vs_overall|floatformat(2) }}% higher than the overall inflation, indicating this category has been particularly affected by price increases.</p>
+                        {% else %}
+                        <p>The {{ category }} category experienced inflation rates {{ cat_vs_overall|abs|floatformat(2) }}% lower than the overall inflation, indicating this category has been less affected by price increases.</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="btn-container">
+                        <a href="/forecast" class="btn">New Analysis</a>
+                        <a href="/" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Category Information</h2>
+                </div>
+                
+                <div class="card-body">
+                    <div class="info-box">
+                        <h3>About this Category</h3>
+                        <p>{{ category }} is one of the major components used to calculate the Consumer Price Index (CPI). Understanding how this category's inflation differs from the overall trend helps identify specific economic pressures.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3>Historical Context</h3>
+                        <p>From {{ start_date }} to {{ end_date }}, this category has shown distinct patterns that may reflect supply chain issues, consumer behavior changes, or policy impacts.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3>Analysis Usage</h3>
+                        <p>Use this analysis to understand price pressures in specific sectors of the economy. This can help with financial planning, policy decisions, and business strategy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p style="text-align: center; padding: 1.5rem 0; color: var(--medium-gray); font-size: 0.9rem;">
+                © 2025 Global Inflation Analysis Tool • Data last updated: {{ now('F j, Y') }}
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
